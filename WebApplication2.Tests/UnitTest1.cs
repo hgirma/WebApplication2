@@ -17,6 +17,7 @@ namespace WebApplication2.Tests
 
             _sut = new ShopService(_transactionRepository, _timeProvider);
         }
+
         [Fact]
         public async Task Test1()
         {
@@ -73,10 +74,13 @@ namespace WebApplication2.Tests
 
             _transactionRepository.AddAsync(Arg.Any<Transaction>()).Returns(transactionAdded);
 
+            _transactionRepository.TestAppUserAsync(user).Returns(Task.CompletedTask);
+
             // Act
             _ = await _sut.RedeemAsync(user, shopItem);
 
             // Assert
+            await _transactionRepository.Received(1).TestAppUserAsync(user); // this passes
             await _transactionRepository.Received(1).AddAsync(transaction); // this fails
 
 

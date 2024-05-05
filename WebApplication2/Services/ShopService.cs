@@ -25,6 +25,8 @@ namespace WebApplication2.Services
                 IsDeleted = false,
             };
 
+            await _transactionRepository.TestAppUserAsync(user);
+
             var result = await _transactionRepository.AddAsync(transaction);
 
             if (result.Id <= 0)
