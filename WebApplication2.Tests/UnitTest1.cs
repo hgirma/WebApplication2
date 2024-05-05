@@ -36,7 +36,18 @@ namespace WebApplication2.Tests
 
             var user = new AppUser
             {
-                Id = "1"
+                Id = "0",
+                Firstname = "Test",
+                Lastname = "test2",
+                CreatedDate = timeNow
+            };
+
+            var userAdded = new AppUser
+            {
+                Id = "1",
+                Firstname = "Test",
+                Lastname = "test2",
+                CreatedDate = timeNow
             };
 
             var transaction = new Transaction
@@ -74,7 +85,7 @@ namespace WebApplication2.Tests
 
             _transactionRepository.AddAsync(Arg.Any<Transaction>()).Returns(transactionAdded);
 
-            _transactionRepository.TestAppUserAsync(user).Returns(Task.CompletedTask);
+            _transactionRepository.TestAppUserAsync(user).Returns(userAdded);
 
             // Act
             _ = await _sut.RedeemAsync(user, shopItem);
@@ -82,7 +93,6 @@ namespace WebApplication2.Tests
             // Assert
             await _transactionRepository.Received(1).TestAppUserAsync(user); // this passes
             await _transactionRepository.Received(1).AddAsync(transaction); // this fails
-
 
             // this passes
             await _transactionRepository.Received(1).AddAsync(

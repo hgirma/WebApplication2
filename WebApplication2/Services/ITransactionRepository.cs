@@ -6,6 +6,6 @@ namespace WebApplication2.Services
     {
         Task<Transaction> AddAsync(Transaction transaction);
 
-        Task TestAppUserAsync(AppUser appUser);
+        Task<AppUser> TestAppUserAsync(AppUser appUser);
     }
 }

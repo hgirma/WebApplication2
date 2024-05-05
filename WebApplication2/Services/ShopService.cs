@@ -25,11 +25,16 @@ namespace WebApplication2.Services
                 IsDeleted = false,
             };
 
-            await _transactionRepository.TestAppUserAsync(user);
+            var userResult = await _transactionRepository.TestAppUserAsync(user);
 
-            var result = await _transactionRepository.AddAsync(transaction);
+            if (userResult.Id == "0")
+            {
+                throw new Exception("User failed");
+            }
 
-            if (result.Id <= 0)
+            var transactionResult = await _transactionRepository.AddAsync(transaction);
+
+            if (transactionResult.Id <= 0)
             {
                 throw new Exception("Transaction failed");
             }
